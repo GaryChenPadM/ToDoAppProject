@@ -1,11 +1,14 @@
 {% extends 'index.html' %}
+<head>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
 {% block title %} Create Task {% endblock %}
 {% block content %}
 <div class="container-fluid">
       <div class="row">
             <div class = "col-md-6">
-                  <form method = "GET" action = "{% url 'submit'  %}" >
-                  {% csrf_token %}
+                  <form id = "form" method = "POST"  action = "{% url 'submit' %}">
+                        {% csrf_token %}
                         <div class = "form-group">
                               <label for = "taskName"> Task Name: </label>
                               <input type = "text" class = "form-control"  id = "task" name = "task" aria-describedby = "taskHelp" placeholder = "Task">
@@ -38,6 +41,26 @@
                               <button type = "submit" class = "btn btn-primary">Create Task</button>
                         </div>
                   </form>
+                  <div id = "output">
+                  </div>
+                  <script>
+                        $('#form').on('submit' ,function(event) {
+                              event.preventDefault();
+                        
+                              $.ajax({
+                                    type : "POST",
+                                    url : "{% url 'submit' %}",
+                                    data: {
+                                          task : $('#task').val(),
+                                          description : $('description').val(),
+                                          csrfmiddlewaretoken: '{{ csrf_token }}',
+                                          dataType: "json",
+                                    },
+                                    
+                                    dataType : 'json',
+                              });
+                        });
+                  </script>
             </div>
       </div>
 </div>
