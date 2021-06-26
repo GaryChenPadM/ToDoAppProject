@@ -4,13 +4,13 @@ from .models import *
 from .forms import *
 # Create your views here.
 def index(request):
+    return render(request, 'index.html')
+
+def toDoList(request):
     mydictionary = {
         "alltodos" : ToDo.objects.all()
     }
-    return render(request, 'index.html' ,context = mydictionary)
-
-def createTask(request):
-    return render(request,'createTask.html')
+    return render(request,'todoList.html', context = mydictionary)
 
 # def submit(request):
 #     if request.is_ajax():
@@ -29,21 +29,21 @@ def createTask(request):
 #     else:
 #         return JsonResponse("not ajax", safe=False )
 
-def submit(request):
-    obj = ToDo()
-    print("im calling TO DO"),
-    task = request.POST.get('task'),
-    obj.task = task,
-    description = request.POST.get('description'),
-    obj.description = description,
-    priority = request.POST.get('inlineRadioOptions'),
-    obj.priority = priority,
-    print("i gotten task, descirption , and priority "),
-    obj.save()
-    if obj.task and obj.description :
-        return JsonResponse("Your task has been added successfully", safe = False)
-    else:
-        return JsonResponse("It FAILED",safe= False)
+# def submit(request):
+#     obj = ToDo()
+#     print("im calling TO DO"),
+#     task = request.POST.get('task'),
+#     obj.task = task,
+#     description = request.POST.get('description'),
+#     obj.description = description,
+#     priority = request.POST.get('inlineRadioOptions'),
+#     obj.priority = priority,
+#     print("i gotten task, descirption , and priority "),
+#     obj.save()
+#     if obj.task and obj.description :
+#         return JsonResponse("Your task has been added successfully", safe = False)
+#     else:
+#         return JsonResponse("It FAILED",safe= False)
 
 # def submit(request):
 #     form = TaskForm(request.POST or None)
@@ -64,15 +64,15 @@ def submit(request):
 #         'form' : form,
 #     }
 
-#     return render(request, 'createTask.html', context)
-# def submit(request):
-#     if request.method == "POST":
-#         form = TaskForm(request.POST)
-#         if form.is_valid():
-#             todo = form.save
-#             return JsonResponse({"msg" : "ToDo Saved", "task" : task})
-#         else:
-#             return JsonResponse({"msg": "InvalidTasl","task":None})
-#     else:
-#         form = TaskForm()
-#         return render(request, 'createTask.html',{"form":"form"})
+    return render(request, 'createTask.html', context)
+def submit(request):
+    if request.method == "POST" and request.is_ajax:
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            todo = form.save()
+            return JsonResponse({"msg" : "ToDo Saved", "task" : task})
+        else:
+            return JsonResponse({"msg": "InvalidTask","task":"none"})
+    else:
+        form = TaskForm()
+        return render(request, 'index.html',{"form":"form"})

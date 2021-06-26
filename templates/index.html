@@ -11,7 +11,9 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
 
-  <title>{% block title %}To Do {% endblock %}</title>
+  <title>To Do </title>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <style>
   .text-center{
     text-allign : center;
@@ -24,56 +26,92 @@
 </head>
 
 <body>
-{% load static %}
+
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="index">ToDo</a>
+    <a class="navbar-brand" href="">ToDo</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="index">Home </a>
+          <a class="nav-link" href="create">Create Tasks </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="create">Create New Task</a>
+          <a class="nav-link" href="todoList">To Do</a>
         </li>
       </ul>
     </div>
   </nav>
   {% block content %}
   <div class = "container-fluid" name = "ToDocontainer">
-  <h1 class = "text-center">Your To Do List</h1>
-  {% for todo in alltodos %}
-  <div class = "row">
-    <div class = "col-md-6" style = "margin:0 auto;">
-      <div class="card containter-fluid" >
-        <div class="card-body">
-          <div class = "row">
-            <div class = "col-md-10" >
-              <h5 class="card-title">{{todo.task}}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">{{todo.created_at}}</h6>
-              <p class="card-text">{{todo.description}}</p>
-              <p class="card-subtitle mb-2 text-muted">{{todo.priority}}</p>
-            </div>
-            <div class = "col-md-2">
-              <button class = "btn btn-light">
-              <img src = {%static 'trashcanicon.png' %} style = "width:2rem ; height:2rem"> 
-              </button>
-            </div>
+    <div class="container-fluid">
+      <div class="row">
+          <div class = "col-md-6">
+            <form id = "taskForm" method = "POST"  action="" >
+              {% csrf_token %}
+                <div class = "form-group">
+                  <label for = "taskName"> Task Name: </label>
+                  <input type = "text" class = "form-control"  id = "task" name = "task" aria-describedby = "taskHelp" placeholder = "Task">
+                </div>
+                <div class = "form-group">
+                  <label for = "taskDescription"> Description: </label>
+                  <textarea class="form-control" id="description" name = "description" placeholder = "Description"></textarea>
+                </div>
+                <div class = "form-group">
+                  <label for = "taskPriority"> Priority: </label>
+                  <div class="form-check form-check-inline">
+                    <span style = "width:50px">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="High Priority">
+                      <label class="form-check-label" for="inlineRadio1" >!!!</label>
+                    </span>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <span style = "width:50px">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Medium Priority">
+                      <label class="form-check-label" for="inlineRadio2" >!!</label>
+                    </span>
+                  </div>            
+                  <div class="form-check form-check-inline">
+                    <span class = "radio"style = "width:50px">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="Low Priority">
+                      <label class="form-check-label" for="inlineRadio3" >!</label>
+                    </span>
+                  </div>           
+                </div>
+                <div class = "form-group">
+                  <button type = "submit" class = "btn btn-primary">Create Task</button>
+                </div>
+            </form>
+            <script>
+              $("form").on('submit' ,function(event) {
+                event.preventDefault();
+                        
+                $.ajax({
+                  type : "POST",
+                  url : "{% url 'submit' %}",
+                  dataType : 'json',
+                  data : $("#taskForm").serializeArray(),
+                  success: function(){
+                    console.log(data)
+                    console.log("I sucessfully trigered AJAX");
+                    $('#taskForm').trigger('reset');
+                  },
+                  error: function(){
+                    alert ("some problem in saving data");
+                  }
+                });
+              });
+            </script>
           </div>
         </div>
       </div>
     </div>
-    
-  </div>
-  {% endfor %}
   </div>
   {% endblock %}
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js">
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
     integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
