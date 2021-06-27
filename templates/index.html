@@ -28,7 +28,7 @@
 <body>
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="">ToDo</a>
+    <a class="navbar-brand" href="todoList">ToDo</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -38,13 +38,12 @@
           <a class="nav-link" href="create">Create Tasks </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="todoList">To Do</a>
+          <a class="nav-link" href="todoList">To Do List</a>
         </li>
       </ul>
     </div>
   </nav>
   {% block content %}
-  <div class = "container-fluid" name = "ToDocontainer">
     <div class="container-fluid">
       <div class="row">
           <div class = "col-md-6">
@@ -62,19 +61,19 @@
                   <label for = "taskPriority"> Priority: </label>
                   <div class="form-check form-check-inline">
                     <span style = "width:50px">
-                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="High Priority">
+                      <input class="form-check-input" type="radio" name="priority" id="inlineRadio1" value="High Priority">
                       <label class="form-check-label" for="inlineRadio1" >!!!</label>
                     </span>
                   </div>
                   <div class="form-check form-check-inline">
                     <span style = "width:50px">
-                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Medium Priority">
+                      <input class="form-check-input" type="radio" name="priority" id="inlineRadio2" value="Medium Priority">
                       <label class="form-check-label" for="inlineRadio2" >!!</label>
                     </span>
                   </div>            
                   <div class="form-check form-check-inline">
                     <span class = "radio"style = "width:50px">
-                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="Low Priority">
+                      <input class="form-check-input" type="radio" name="priority" id="inlineRadio3" value="Low Priority">
                       <label class="form-check-label" for="inlineRadio3" >!</label>
                     </span>
                   </div>           
@@ -94,6 +93,7 @@
                   data : $("#taskForm").serializeArray(),
                   success: function(){
                     console.log("I sucessfully trigered AJAX");
+                    console.log($("#taskForm").serializeArray());
                     $('#taskForm').trigger('reset');
                   },
                   error: function(){
@@ -106,7 +106,6 @@
         </div>
       </div>
     </div>
-  </div>
   {% endblock %}
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->

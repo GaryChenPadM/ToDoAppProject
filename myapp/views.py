@@ -70,8 +70,10 @@ def submit(request):
         form = TaskForm(request.POST)
         if form.is_valid():
             todo = form.save()
-            return JsonResponse({"msg" : "ToDo Saved", "task" : task})
+            return JsonResponse({"msg" : "ToDo Saved"})
         else:
+            print("form is invalid")
+            print(form.errors)
             return JsonResponse({"msg": "InvalidTask","task":"none"})
     else:
         form = TaskForm()
