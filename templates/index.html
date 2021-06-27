@@ -93,7 +93,6 @@
                   dataType : 'json',
                   data : $("#taskForm").serializeArray(),
                   success: function(){
-                    console.log(data)
                     console.log("I sucessfully trigered AJAX");
                     $('#taskForm').trigger('reset');
                   },
