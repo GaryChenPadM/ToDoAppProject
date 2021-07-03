@@ -61,13 +61,14 @@
                   <label for = "taskPriority"> Priority: </label>
                   <div class="form-check form-check-inline">
                     <span style = "width:50px">
-                      <input class="form-check-input" type="radio" name="priority" id="inlineRadio1" value="High Priority">
+                    {% comment %} name attr needs to match to that in Models {% endcomment %}
+                      <input class="form-check-input" type="radio" name="priority" id="inlineRadio1" value="High Priority"> 
                       <label class="form-check-label" for="inlineRadio1" >!!!</label>
                     </span>
                   </div>
                   <div class="form-check form-check-inline">
                     <span style = "width:50px">
-                      <input class="form-check-input" type="radio" name="priority" id="inlineRadio2" value="Medium Priority">
+                      <input class="form-check-input" type="radio" name="priority" id="inlineRadio2" value="Medium Priority"> 
                       <label class="form-check-label" for="inlineRadio2" >!!</label>
                     </span>
                   </div>            

@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+{% block content %}
+{% load static %}
+<h1 class = "text-center">Your To Do List</h1>
+  {% for todo in alltodos %}
+  <div class = "row">
+    <div class = "col-md-6" style = "margin:0 auto;">
+      <div class="card containter-fluid" >
+        <div class="card-body">
+          <div class = "row">
+            <div class = "col-md-10" >
+              <h5 class="card-title">{{todo.task}}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{todo.created_at}}</h6>
+              <p class="card-text">{{todo.description}}</p>
+              <p class="card-subtitle mb-2 text-muted">{{todo.priority}}</p>
+            </div>
+            <div class = "col-md-2">
+              <button class = "btn btn-light">
+              <img src = {%static 'trashcanicon.png' %} style = "width:2rem ; height:2rem"> 
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  {% endfor %}
+{% endblock %}
